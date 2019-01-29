@@ -60,6 +60,12 @@ class Lexico():
       elif c == '-':
         self.state = 24
         self.sigPosicion()
+      elif c == 'i':
+        self.state = 25
+        self.sigPosicion()
+      elif c.isalpha():
+        self.state = 27
+        self.sigPosicion()
 
       else: 
         self.tipoDato(-1)
@@ -96,7 +102,7 @@ class Lexico():
       else:
         self.tipoDato(-1)
 
-
+    #Estado 10
     elif self.state == 10:
       if c == '=':
         self.state = 11
@@ -104,7 +110,7 @@ class Lexico():
       else:
         self.tipoDato(-1)
 
-
+    #Estado 12
     elif self.state == 12:
       if c == '=':
         self.state = 13
@@ -112,19 +118,44 @@ class Lexico():
       else:
         self.tipoDato(-1)
 
+    #Estado 14
     elif self.state == 14:
       if c == '=':
         self.state = 15
         self.sigPosicion()
       else:
         self.tipoDato(-1)
-
+        
+    #Estado 16
     elif self.state == 16:
       if c == '=':
         self.state = 17
         self.sigPosicion()
       else:
         self.tipoDato(-1)
+
+    elif self.state == 25:
+      if c == 'f':
+        self.state = 26
+        self.sigPosicion()
+      else:
+        self.state = 27
+        self.sigPosicion()
+
+    elif self.state == 26:
+      if c.isdigit() or c.isalpha():
+        self.state = 27
+        self.sigPosicion()
+      else:
+        self.tipoDato(-1)
+
+    elif self.state == 27:
+      if c.isdigit() or c.isalpha():
+        self.state = 27
+        self.sigPosicion()
+      else:
+        self.tipoDato(-1)
+
 
 
 
@@ -186,6 +217,11 @@ class Lexico():
         print('PLUS')
     elif estado == 24:
         print('MINUS')
+    elif estado == 26:
+        print('IF')
+    elif estado == 27:
+        print('Identificador')
+
     else:
         print ('Invalid')
 
