@@ -3,14 +3,19 @@ from lexico import Lexico
 from pila import Pila
 os.system('clear')
 
-
+"""
 matriz = ([2, 0, 0, 1],
 		  [0, 0,-1, 0],
-		  [0, 3, 0, 0],
-		  [4, 0, 0, 0],
+		  [0, 3, -3, 0],
+		  [2, 0, 0, 4],
 		  [0, 0, -2, 0])
+"""
 
 valores = {'ID':'0', 'PLUS': 1, '$': 2}
+reglas = {
+		   -2: {'nombre': 'E','columna':3,'cantidad':3},
+		   -3: {'nombre': 'E','columna':3,'cantidad':1}
+		 };
 
 class Sintactico():
 	def __init__(self,size):
@@ -24,28 +29,24 @@ class Sintactico():
 	def comparar(self,token):
 		if(valores[token]):
 			self.accion = matriz[int(self.pila.top())][int(valores[token])]
-			print(self.pila.top())
-			print(valores[token])
-			if(self.accion > 0):
+			if(self.accion == -1):
+				print('Cadena valida')
+			elif(self.accion > 0):
 				self.pila.push(self.accion)
-				
 			elif(self.accion < 0):
-				self.pila.pop(self.cantidad)
-				print('Valida')
+				self.pila.pop(reglas[self.accion]['cantidad'])
+				self.pila.push(matriz[int(self.pila.top())][reglas[self.accion]['columna']])
+				self.comparar('$')
 			else: 
 				print('Invalida')
 				exit()
-
-			print(self.pila.get())
-			print()
-			
 			
 			
 			
 			
 cadena = input('Ingresar cadena: ')
 lexico = Lexico(cadena)
-elementos = list()
+tokens = list()
 while(lexico.termino() == False):
   lexico.sigPosicion()
   if(lexico.boolToken):
