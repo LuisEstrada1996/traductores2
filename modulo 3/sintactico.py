@@ -29,20 +29,29 @@ class Sintactico():
 	def comparar(self,token):
 		if(valores[token]):
 			self.accion = matriz[int(self.pila.top())][int(valores[token])]
+			print('Pila: ', self.pila.get())
+			print('Token: ', token)
 			if(self.accion == -1):
 				print('Cadena valida')
+
 			elif(self.accion > 0):
 				self.pila.push(self.accion)
+				print('Accion: PUSH')
+				print('\n')
+				
 			elif(self.accion < 0):
 				self.pila.pop(reglas[self.accion]['cantidad'])
 				self.pila.push(matriz[int(self.pila.top())][reglas[self.accion]['columna']])
+				print('Accion: POP %d elementos'%reglas[self.accion]['cantidad'])
+				print('Accion: PUSH de la regla')
+				print('\n')
 				self.comparar('$')
 			else: 
 				print('Invalida')
 				exit()
 			
-			
-			
+
+	
 			
 cadena = input('Ingresar cadena: ')
 lexico = Lexico(cadena)
